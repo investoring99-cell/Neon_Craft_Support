@@ -1,0 +1,313 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neon Craft — Поддержка</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#0b0b0b;color:#f5f5f5;
+ font-family:Arial,sans-serif;
+}
+header{
+ text-align:center;padding:30px 15px 24px;
+ background:linear-gradient(150deg,#252525,#101010);
+ border-bottom:1px solid #444;
+}
+.logo{
+ width:76px;height:76px;border-radius:50%;
+ border:2px solid #aaa;background:#171717;
+ display:flex;align-items:center;justify-content:center;
+ margin:0 auto 15px;font-size:25px;font-weight:800;
+ letter-spacing:2px;color:#fff;
+ box-shadow:0 0 22px #ffffff18;
+}
+h1{font-size:23px;letter-spacing:2px;margin:0}
+.subtitle{color:#aaa;font-size:13px;margin-top:9px}
+main{max-width:760px;margin:25px auto;padding:12px}
+.panel{
+ background:#151515;border:1px solid #393939;
+ border-radius:15px;padding:20px;
+}
+.section-title{
+ font-size:17px;font-weight:bold;margin:3px 0 17px;
+}
+.description{font-size:13px;color:#aaa;line-height:1.5;margin-bottom:20px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{
+ cursor:pointer;font-size:13px;
+}
+.category{
+ min-height:58px;padding:13px 10px;
+ border:1px solid #444;border-radius:10px;
+ background:#222;color:#f4f4f4;
+ text-align:left;line-height:1.4;
+ transition:.2s;
+}
+.category:active{background:#444}
+.category:hover{background:#303030;border-color:#aaa}
+.question{
+ display:block;width:100%;padding:15px;
+ margin:9px 0;border:1px solid #444;
+ border-radius:9px;background:#222;
+ color:#fff;text-align:left;
+}
+.question:hover{background:#333}
+.answer{
+ padding:19px;background:#202020;
+ border:1px solid #555;border-radius:10px;
+ line-height:1.7;font-size:14px;
+ white-space:pre-wrap;
+}
+.back{
+ margin-top:16px;padding:12px 17px;
+ border-radius:8px;border:1px solid #777;
+ background:#eee;color:#111;font-weight:bold;
+}
+.hidden{display:none}
+footer{
+ text-align:center;color:#777;font-size:11px;
+ padding:25px 10px;
+}
+@media(max-width:430px){
+ .grid{grid-template-columns:1fr}
+ main{margin:15px auto}
+ .panel{padding:15px}
+}
+</style>
+</head>
+<body>
+
+<header>
+ <div class="logo">NC</div>
+ <h1>NEON CRAFT</h1>
+ <div class="subtitle">Поддержка сервера</div>
+</header>
+
+<main>
+ <div class="panel">
+  <div id="home">
+   <div class="section-title">Центр поддержки</div>
+   <div class="description">
+    Выберите интересующую категорию, чтобы посмотреть вопросы и ответы о сервере Neon Craft.
+   </div>
+   <div class="grid" id="categories"></div>
+  </div>
+
+  <div id="questions" class="hidden">
+   <div class="section-title" id="categoryTitle"></div>
+   <div class="description">Выберите вопрос:</div>
+   <div id="questionList"></div>
+   <button class="back" onclick="showHome()">Назад к категориям</button>
+  </div>
+
+  <div id="answerPage" class="hidden">
+   <div class="section-title" id="answerTitle"></div>
+   <div class="answer" id="answerText"></div>
+   <button class="back" onclick="showQuestions()">Назад к вопросам</button>
+  </div>
+ </div>
+</main>
+
+<footer>
+ NEON CRAFT • OFFICIAL SERVER SUPPORT
+</footer>
+
+<script>
+const data = [
+{
+ name:"Информация о сервере",
+ questions:[
+ ["Что такое Neon Craft?","Neon Craft — сервер Minecraft Bedrock с режимом Vanilla Survival."],
+ ["На какой платформе работает сервер?","Сервер предназначен для Minecraft Bedrock Edition."],
+ ["Вход на сервер платный?","Нет. Вход на сервер бесплатный. Дополнительные привилегии приобретаются отдельно."],
+ ["Сколько игроков может играть?","Заявленная вместимость — до 150 игроков. Фактическое количество зависит от возможностей хостинга."]
+ ]
+},
+{
+ name:"IP и порт",
+ questions:[
+ ["Какой IP сервера?","IP: NeonCraft-VWy7.aternos.me"],
+ ["Какой порт сервера?","Порт: 19132"],
+ ["Где указать IP и порт?","При добавлении сервера в Minecraft Bedrock укажи IP и порт в соответствующих полях."]
+ ]
+},
+{
+ name:"Как подключиться",
+ questions:[
+ ["Как зайти на сервер?","1. Открой Minecraft Bedrock.\n2. Перейди в раздел «Серверы».\n3. Нажми «Добавить сервер».\n4. Имя: Neon Craft.\n5. IP: NeonCraft-VWy7.aternos.me\n6. Порт: 19132.\n7. Сохрани и подключись."],
+ ["Как добавить сервер?","Открой вкладку «Серверы», выбери «Добавить сервер» и введи адрес и порт Neon Craft."],
+ ["Что делать, если не получается зайти?","Проверь правильность IP и порта, интернет-соединение, версию Minecraft и доступность сервера."]
+ ]
+},
+{
+ name:"Версия Minecraft",
+ questions:[
+ ["Какая версия Minecraft нужна?","Neon Craft работает на Minecraft Bedrock. Уточни актуальную совместимую версию у администрации."],
+ ["Можно ли играть с телефона?","Да, если устройство поддерживает совместимую версию Minecraft Bedrock."],
+ ["Можно ли играть с компьютера?","Да, если используется совместимая версия Minecraft Bedrock."]
+ ]
+},
+{
+ name:"Режим выживания",
+ questions:[
+ ["Какой режим на сервере?","На сервере доступен Vanilla Survival — классическое выживание."],
+ ["Есть ли экономика?","Сейчас экономика на сервере не предусмотрена."],
+ ["Можно ли создать команду?","Команды можно организовать минимум из двух игроков через администратора."],
+ ["Можно ли строить дома?","Да, игроки могут строить свои базы и сооружения, соблюдая правила сервера."]
+ ]
+},
+{
+ name:"Правила сервера",
+ questions:[
+ ["Какие основные правила?","1. Не оскорбляй игроков и администрацию.\n2. Не разрушай спавн.\n3. Не занимайся гриферством.\n4. Не рекламируй другие серверы.\n5. Не используй читы для нечестной игры."],
+ ["Разрешено ли гриферство?","Нет. Гриферство запрещено."],
+ ["Можно ли рекламировать другие серверы?","Нет. Реклама других серверов запрещена и может привести к постоянному бану."],
+ ["Можно ли оскорблять игроков?","Нет. Оскорбления игроков и администрации запрещены."]
+ ]
+},
+{
+ name:"Запрещённые действия",
+ questions:[
+ ["Разрешены ли читы?","Использование читов для получения нечестного преимущества запрещено."],
+ ["Разрешён ли X-Ray?","Нет. X-Ray запрещён."],
+ ["Разрешён ли Fly?","Нет. Fly и другие читы для нечестной игры запрещены."],
+ ["Можно ли ломать спавн?","Нет. Разрушение спавна запрещено."]
+ ]
+},
+{
+ name:"Привилегии и донат",
+ questions:[
+ ["Есть ли привилегии?","Да, на сервере предусмотрены дополнительные привилегии."],
+ ["Сколько стоит администратор?","Актуальная стоимость требует подтверждения у администрации. Ранее назывались разные цены."],
+ ["Как приобрести привилегию?","Обратись к администрации для уточнения актуальной стоимости и условий покупки."],
+ ["Обязательно ли покупать привилегию?","Нет. Играть на сервере можно бесплатно."]
+ ]
+},
+{
+ name:"Администрация",
+ questions:[
+ ["Кто создал сервер?","Создатели Neon Craft: FrostX5906 и Абиль 47090247."],
+ ["Как связаться с администрацией?","Обратись через Telegram-бота или доступный чат администрации."],
+ ["Администратор всегда онлайн?","Нет. Администрация может быть недоступна в отдельное время."],
+ ["Как стать администратором?","Обратись к администрации и уточни требования и условия."]
+ ]
+},
+{
+ name:"Баны и разбаны",
+ questions:[
+ ["За что можно получить бан?","За серьёзные нарушения правил: гриферство, оскорбления, разрушение спавна, рекламу других серверов и другие нарушения."],
+ ["Как обжаловать бан?","Обратись к администрации через Telegram-бота и объясни ситуацию."],
+ ["Можно ли попросить разбан?","Да, можно обратиться с просьбой пересмотреть решение администрации."]
+ ]
+},
+{
+ name:"Жалобы на игроков",
+ questions:[
+ ["Как пожаловаться на игрока?","Подготовь ник игрока, описание ситуации и доказательства. Отправь их администрации."],
+ ["Какие доказательства нужны?","Подойдут скриншоты и видеозаписи, показывающие ситуацию."],
+ ["Куда отправить жалобу?","Через Telegram-бота или администрацию."]
+ ]
+},
+{
+ name:"Потерянные вещи",
+ questions:[
+ ["Можно ли вернуть потерянные вещи?","В Vanilla Survival нет автоматического восстановления предметов."],
+ ["Что делать при гриферстве?","Собери доказательства нарушения и передай их администрации."],
+ ["Вернут ли украденные предметы?","Администрация может рассмотреть возврат индивидуально при наличии доказательств. Это не гарантируется."]
+ ]
+},
+{
+ name:"Телепортация",
+ questions:[
+ ["Можно ли использовать телепорт?","Телепортация возможна с разрешения администратора."],
+ ["Как попросить телепорт?","Обратись к администрации и объясни, куда тебе нужно переместиться."]
+ ]
+},
+{
+ name:"Ошибки и проблемы",
+ questions:[
+ ["Почему сервер не работает?","Сервер размещён на Aternos и может быть выключен. Попробуй подключиться позднее."],
+ ["Что делать при ошибке подключения?","Проверь IP, порт, версию Minecraft и интернет-соединение."],
+ ["Что делать, если вылетает Minecraft?","Перезапусти игру, проверь обновления и попробуй подключиться снова."]
+ ]
+},
+{
+ name:"Обновления и вайпы",
+ questions:[
+ ["Когда будет обновление?","Администрация планирует обновления. Точные даты пока не подтверждены."],
+ ["Когда будет вайп?","Дата следующего вайпа пока не объявлена."],
+ ["Как узнать новости сервера?","Следи за объявлениями администрации и сообщениями Telegram-бота."],
+ ["Будет ли сервер работать 24/7?","Планируется переход на отдельный хостинг для круглосуточной работы."]
+ ]
+},
+{
+ name:"Создатели сервера",
+ questions:[
+ ["Кто основатель Neon Craft?","Создатели Neon Craft: FrostX5906 и Абиль 47090247."],
+ ["Кто отвечает за сервер?","За сервер отвечают его создатели и администрация."]
+ ]
+},
+{
+ name:"Часто задаваемые вопросы",
+ questions:[
+ ["Можно ли снимать видео на сервере?","Да, можно снимать видео. Не распространяй заведомо ложную информацию о сервере."],
+ ["Можно ли сообщить об ошибке?","Да. Сделай скриншот или видеозапись ошибки и передай администрации."],
+ ["Есть ли официальный Discord?","Официального Discord-сервера пока нет."],
+ ["Есть ли WhatsApp-чат?","Да, у проекта есть WhatsApp-чат."]
+ ]
+}
+];
+
+let currentCategory=0;
+
+function showHome(){
+ document.getElementById("home").classList.remove("hidden");
+ document.getElementById("questions").classList.add("hidden");
+ document.getElementById("answerPage").classList.add("hidden");
+}
+
+function showQuestions(){
+ document.getElementById("home").classList.add("hidden");
+ document.getElementById("questions").classList.remove("hidden");
+ document.getElementById("answerPage").classList.add("hidden");
+}
+
+function openCategory(index){
+ currentCategory=index;
+ const category=data[index];
+ document.getElementById("categoryTitle").textContent=category.name;
+ const list=document.getElementById("questionList");
+ list.innerHTML="";
+ category.questions.forEach((item,i)=>{
+  const btn=document.createElement("button");
+  btn.className="question";
+  btn.textContent=item[0];
+  btn.onclick=()=>openAnswer(i);
+  list.appendChild(btn);
+ });
+ showQuestions();
+}
+
+function openAnswer(index){
+ const item=data[currentCategory].questions[index];
+ document.getElementById("answerTitle").textContent=item[0];
+ document.getElementById("answerText").textContent=item[1];
+ document.getElementById("home").classList.add("hidden");
+ document.getElementById("questions").classList.add("hidden");
+ document.getElementById("answerPage").classList.remove("hidden");
+}
+
+const container=document.getElementById("categories");
+data.forEach((category,index)=>{
+ const btn=document.createElement("button");
+ btn.className="category";
+ btn.textContent=category.name;
+ btn.onclick=()=>openCategory(index);
+ container.appendChild(btn);
+});
+</script>
+</body>
+</html>
